@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 — Page Not Found | Posture AI</title>
+  <meta name="description" content="The requested page could not be located on the Posture AI platform.">
+  <link rel="canonical" href="https://posture.flowkraft.xyz/404">
+
+  <!-- Favicon and Touch Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+
+  <!-- Roboto Font from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-base: #0b0d13;
+      --card-bg: linear-gradient(135deg, rgba(25, 27, 34, 0.75) 0%, rgba(15, 17, 23, 0.55) 100%);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --card-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.12);
+      --text-main: #f4f5f8;
+      --text-muted: #8b8d98;
+      --accent-blue: #3d63dd;
+      --input-bg: rgba(255, 255, 255, 0.05);
+    }
+
+    *, *::before, *::after, button, a {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif !important;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(61, 99, 221, 0.18) 0%, rgba(0,0,0,0) 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .error-card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 460px;
+      background: var(--card-bg);
+      backdrop-filter: blur(45px) saturate(190%);
+      -webkit-backdrop-filter: blur(45px) saturate(190%);
+      border: 1px solid var(--card-border);
+      box-shadow: var(--card-shadow);
+      border-radius: 28px;
+      padding: 48px 36px;
+      text-align: center;
+    }
+
+    .error-badge {
+      font-size: 4rem;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      color: var(--accent-blue);
+      line-height: 1;
+      margin-bottom: 12px;
+      text-shadow: 0 0 40px rgba(61, 99, 221, 0.4);
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .home-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--accent-blue) 0%, #2f52c4 100%);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(61, 99, 221, 0.35);
+      transition: all 0.25s ease;
+    }
+
+    .home-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(61, 99, 221, 0.45);
+    }
+
+    .legal-footer-left {
+      position: fixed;
+      bottom: 16px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      background: rgba(15, 17, 23, 0.75);
+      backdrop-filter: blur(15px);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--card-border);
+    }
+
+    .legal-link {
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="error-card">
+    <img src="/favicon.svg" alt="Posture AI Logo" style="width: 52px; height: 52px; border-radius: 15px; box-shadow: 0 6px 18px rgba(61,99,221,0.35); margin-bottom: 16px;">
+    <div class="error-badge">404</div>
+    <h1>Page Not Found</h1>
+    <p>The ergonomic telemetry route you requested does not exist or has been relocated.</p>
+    <a href="/" class="home-btn">&larr; Return to Dashboard</a>
+  </div>
+
+  <div class="legal-footer-left">
+    <span>&copy; <span id="currentYear">2026</span> Posture AI.</span>
+    <a href="/privacy" class="legal-link">Privacy Policy</a>
+  </div>
+
+  <script>
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

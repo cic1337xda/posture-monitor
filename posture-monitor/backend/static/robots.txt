@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Allow: /login
+Allow: /privacy
+Disallow: /api/
+Disallow: /command/
+
+Sitemap: https://posture.flowkraft.xyz/sitemap.xml

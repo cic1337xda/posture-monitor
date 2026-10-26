@@ -1,0 +1,43 @@
+services:
+  posture-monitor:
+    build: ./backend
+    container_name: posture-monitor
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Kuala_Lumpur
+      - MAX_SITTING_SECONDS=${MAX_SITTING_SECONDS:-600}
+      - MAX_BAD_POSTURE_SECONDS=${MAX_BAD_POSTURE_SECONDS:-5.0}
+      - WARNING_PERCENT=${WARNING_PERCENT:-0.60}
+      - CRITICAL_PERCENT=${CRITICAL_PERCENT:-0.85}
+      - DETECTION_CONFIDENCE=${DETECTION_CONFIDENCE:-0.6}
+      - CALIBRATION_FRAMES=${CALIBRATION_FRAMES:-60}
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - RESEND_FROM_EMAIL=${RESEND_FROM_EMAIL:-posture@mail.flowkraft.xyz}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-posture_secret_auth_jwt_key_2026_flowkraft_xyz}
+      - MQTT_BROKER=posturemonitor-mqtt
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    ports:
+      - "5000:5000"
+    depends_on:
+      - posturemonitor-mqtt # Kemaskini nama di sini
+    networks:
+      - pwn20wnd-network
+
+  posturemonitor-mqtt: # Nama service ditukar
+    image: eclipse-mosquitto:latest
+    container_name: posturemonitor-mqtt # Nama container ditukar
+    restart: unless-stopped
+    ports:
+      - "1888:1883" 
+    volumes:
+      - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    networks:
+      - pwn20wnd-network
+
+networks:
+  pwn20wnd-network:
+    external: true

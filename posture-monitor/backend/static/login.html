@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Posture AI — Sign In & Telemetry</title>
+  <meta name="description" content="Secure access to Posture AI intelligent posture tracking, biometric telemetry, and ergonomics dashboard.">
+  <link rel="canonical" href="https://posture.flowkraft.xyz/login">
+
+  <!-- Favicon and Touch Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+
+  <!-- Open Graph & Social Cards -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Posture AI — Sign In">
+  <meta property="og:description" content="Real-time AI posture detection and ergonomic telemetry for desktop health.">
+  <meta property="og:image" content="/favicon.svg">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Posture AI — Sign In">
+  <meta name="twitter:description" content="Real-time AI posture detection and ergonomic telemetry for desktop health.">
+  <meta name="twitter:image" content="/favicon.svg">
+  
+  <!-- Roboto Font from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-base: #0b0d13;
+      --card-bg: linear-gradient(135deg, rgba(25, 27, 34, 0.75) 0%, rgba(15, 17, 23, 0.55) 100%);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --card-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.12);
+      --text-main: #f4f5f8;
+      --text-muted: #8b8d98;
+      --accent-blue: #3d63dd;
+      --accent-blue-hover: #4b73f0;
+      --accent-red: #ff3b30;
+      --accent-green: #34c759;
+      --input-bg: rgba(255, 255, 255, 0.05);
+      --input-border: rgba(255, 255, 255, 0.14);
+      --input-focus: #3d63dd;
+    }
+
+    .light-theme {
+      --bg-base: #f4f5f8;
+      --card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(240, 242, 248, 0.65) 100%);
+      --card-border: rgba(216, 217, 224, 0.8);
+      --card-shadow: 0 20px 45px rgba(0, 5, 29, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+      --text-main: #1d1e24;
+      --text-muted: #62636c;
+      --accent-blue: #3d63dd;
+      --accent-blue-hover: #3253be;
+      --input-bg: rgba(0, 0, 0, 0.03);
+      --input-border: rgba(0, 0, 0, 0.12);
+      --input-focus: #3d63dd;
+    }
+
+    *, *::before, *::after, button, input, select, textarea {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif !important;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow-x: hidden;
+      position: relative;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* Ambient Glow Behind Card */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(61, 99, 221, 0.18) 0%, rgba(0,0,0,0) 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Apple Liquid Glass Card */
+    .auth-card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 440px;
+      background: var(--card-bg);
+      backdrop-filter: blur(45px) saturate(190%);
+      -webkit-backdrop-filter: blur(45px) saturate(190%);
+      border: 1px solid var(--card-border);
+      box-shadow: var(--card-shadow);
+      border-radius: 28px;
+      padding: 40px 36px;
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: 28px;
+      position: relative;
+    }
+
+    .brand-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--accent-blue) 0%, #2546b8 100%);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 800;
+      box-shadow: 0 8px 24px rgba(61, 99, 221, 0.35);
+      margin-bottom: 14px;
+    }
+
+    .auth-header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .auth-header p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .theme-toggle-btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--card-border);
+      background: var(--input-bg);
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .theme-toggle-btn:hover {
+      transform: scale(1.08);
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 7px;
+      color: var(--text-main);
+    }
+
+    .input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 13px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--input-border);
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-input:focus {
+      border-color: var(--input-focus);
+      box-shadow: 0 0 0 3px rgba(61, 99, 221, 0.22);
+    }
+
+    .password-toggle-btn {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      outline: none;
+    }
+
+    .password-toggle-btn:hover {
+      color: var(--text-main);
+    }
+
+    /* Text Links (Modern Clickable Text) */
+    .text-link {
+      background: none;
+      border: none;
+      color: var(--accent-blue);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: color 0.2s ease, opacity 0.2s ease;
+      display: inline-block;
+      padding: 2px 0;
+    }
+
+    .text-link:hover {
+      opacity: 0.82;
+      text-decoration: underline;
+    }
+
+    .forgot-wrap {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: -6px;
+      margin-bottom: 22px;
+    }
+
+    /* Primary Liquid Button */
+    .submit-btn {
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: linear-gradient(135deg, var(--accent-blue) 0%, #2f52c4 100%);
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(61, 99, 221, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(61, 99, 221, 0.45);
+      filter: brightness(1.05);
+    }
+
+    .submit-btn:active {
+      transform: scale(0.98);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Bottom Switch Text */
+    .auth-footer {
+      text-align: center;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--input-border);
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .auth-footer .text-link {
+      font-weight: 600;
+      margin-left: 4px;
+    }
+
+    /* OTP Inputs */
+    .otp-inputs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px 0 24px;
+    }
+
+    .otp-digit {
+      width: 48px;
+      height: 56px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 800;
+      border-radius: 14px;
+      border: 1px solid var(--input-border);
+      background: var(--input-bg);
+      color: var(--accent-blue);
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .otp-digit:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(61, 99, 221, 0.25);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: rgba(25, 27, 34, 0.95);
+      backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.4);
+      z-index: 9999;
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28), opacity 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .toast.error {
+      border-color: var(--accent-red);
+      color: #ff6b6b;
+    }
+
+    .toast.success {
+      border-color: var(--accent-green);
+      color: #51cf66;
+    }
+
+    /* Password Hints */
+    .pwd-requirements {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    /* Phone / Mobile Blocker Overlay */
+    .mobile-blocker-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 999999;
+      background: rgba(10, 12, 18, 0.94);
+      backdrop-filter: blur(35px);
+      -webkit-backdrop-filter: blur(35px);
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .mobile-blocker-card {
+      max-width: 360px;
+      background: linear-gradient(135deg, rgba(28, 30, 38, 0.85) 0%, rgba(18, 20, 26, 0.7) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 28px;
+      padding: 36px 28px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+    }
+
+    .mobile-blocker-card h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin: 16px 0 8px;
+      color: #fff;
+    }
+
+    .mobile-blocker-card p {
+      font-size: 0.88rem;
+      color: #8b8d98;
+      line-height: 1.5;
+    }
+
+    .device-pill {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 8px 16px;
+      background: rgba(61, 99, 221, 0.15);
+      border: 1px solid #3d63dd;
+      color: #87a5ef;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    @media (max-width: 900px) {
+      .mobile-blocker-overlay {
+        display: flex !important;
+      }
+    }
+
+    /* Bottom Left Legal Footer */
+    .legal-footer-left {
+      position: fixed;
+      bottom: 16px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      z-index: 100;
+      background: rgba(15, 17, 23, 0.75);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--card-border);
+    }
+
+    .legal-link {
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .legal-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .legal-footer-left {
+        position: static;
+        margin-top: 24px;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MOBILE / PHONE BLOCKER OVERLAY -->
+  <div id="mobileBlocker" class="mobile-blocker-overlay">
+    <div class="mobile-blocker-card">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3d63dd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+        <line x1="8" y1="21" x2="16" y2="21"></line>
+        <line x1="12" y1="17" x2="12" y2="21"></line>
+      </svg>
+      <h2>Desktop Optimization Required</h2>
+      <p>Posture AI relies on real-time MediaPipe computer vision and webcam ergonomics. Please access this system from a <strong>laptop or desktop PC</strong>.</p>
+      <div class="device-pill">🖥️ Desktop / Laptop Only</div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="toast"></div>
+
+  <!-- AUTH LIQUID GLASS CONTAINER -->
+  <div class="auth-card">
+    <div class="auth-header">
+      <button class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Light/Dark Theme">
+        <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+
+      <img src="/favicon.svg" alt="Posture AI Logo" class="brand-icon" style="width: 58px; height: 58px; border-radius: 16px; box-shadow: 0 8px 24px rgba(61, 99, 221, 0.35); margin-bottom: 14px; display: inline-block;">
+      <h1 id="viewTitle">Welcome Back</h1>
+      <p id="viewSubtitle">Sign in to your Posture AI telemetry dashboard</p>
+    </div>
+
+    <!-- VIEW 1: SIGN IN -->
+    <div id="loginView">
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label" for="loginIdentifier">Username or Email</label>
+          <div class="input-wrap">
+            <input class="form-input" type="text" id="loginIdentifier" placeholder="name@example.com" required autocomplete="username">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label class="form-label" for="loginPassword">Password</label>
+          <div class="input-wrap">
+            <input class="form-input" type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('loginPassword')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="forgot-wrap">
+          <button type="button" class="text-link" onclick="switchView('forgotView')">Forgot password?</button>
+        </div>
+
+        <button type="submit" id="loginBtn" class="submit-btn">Sign In</button>
+      </form>
+
+      <div class="auth-footer">
+        Don't have an account?
+        <button type="button" class="text-link" onclick="switchView('registerView')">Sign up</button>
+      </div>
+    </div>
+
+    <!-- VIEW 2: SIGN UP / REGISTER -->
+    <div id="registerView" style="display: none;">
+      <form onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label class="form-label" for="regUsername">Username</label>
+          <div class="input-wrap">
+            <input class="form-input" type="text" id="regUsername" placeholder="yourname" required autocomplete="username" minlength="3">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="regEmail">Email Address</label>
+          <div class="input-wrap">
+            <input class="form-input" type="email" id="regEmail" placeholder="your@email.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="regPassword">Password</label>
+          <div class="input-wrap">
+            <input class="form-input" type="password" id="regPassword" placeholder="Min 8 chars with uppercase, number, symbol" required autocomplete="new-password">
+            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('regPassword')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+          <div class="pwd-requirements">Must be 8+ chars with uppercase, lowercase, number, and special character.</div>
+        </div>
+
+        <button type="submit" id="regBtn" class="submit-btn" style="margin-top: 24px;">Create Account</button>
+      </form>
+
+      <div class="auth-footer">
+        Already have an account?
+        <button type="button" class="text-link" onclick="switchView('loginView')">Sign in</button>
+      </div>
+    </div>
+
+    <!-- VIEW 3: OTP VERIFICATION -->
+    <div id="otpView" style="display: none;">
+      <form onsubmit="handleVerifyOtp(event)">
+        <p style="font-size: 0.88rem; color: var(--text-muted); text-align: center; margin-bottom: 16px;">
+          Verification code sent to <strong id="otpEmailTarget" style="color: var(--text-main);"></strong>
+        </p>
+
+        <div class="otp-inputs">
+          <input class="otp-digit" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required oninput="handleOtpInput(this, 0)">
+          <input class="otp-digit" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required oninput="handleOtpInput(this, 1)">
+          <input class="otp-digit" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required oninput="handleOtpInput(this, 2)">
+          <input class="otp-digit" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required oninput="handleOtpInput(this, 3)">
+          <input class="otp-digit" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required oninput="handleOtpInput(this, 4)">
+          <input class="otp-digit" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required oninput="handleOtpInput(this, 5)">
+        </div>
+
+        <button type="submit" id="otpBtn" class="submit-btn">Verify & Activate</button>
+
+        <div style="text-align: center; margin-top: 18px;">
+          <button type="button" class="text-link" onclick="resendOtp()">Resend Code</button>
+        </div>
+      </form>
+
+      <div class="auth-footer">
+        <button type="button" class="text-link" onclick="switchView('loginView')">&larr; Back to Sign In</button>
+      </div>
+    </div>
+
+    <!-- VIEW 4: FORGOT PASSWORD -->
+    <div id="forgotView" style="display: none;">
+      <form onsubmit="handleForgotPassword(event)">
+        <div class="form-group">
+          <label class="form-label" for="forgotEmail">Registered Email Address</label>
+          <div class="input-wrap">
+            <input class="form-input" type="email" id="forgotEmail" placeholder="your@email.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <button type="submit" id="forgotBtn" class="submit-btn" style="margin-top: 24px;">Send Reset Code</button>
+      </form>
+
+      <div class="auth-footer">
+        Remember your password?
+        <button type="button" class="text-link" onclick="switchView('loginView')">Sign in</button>
+      </div>
+    </div>
+
+    <!-- VIEW 5: RESET PASSWORD (WITH OTP) -->
+    <div id="resetPwdView" style="display: none;">
+      <form onsubmit="handleResetPassword(event)">
+        <p style="font-size: 0.88rem; color: var(--text-muted); text-align: center; margin-bottom: 16px;">
+          Enter the 6-digit code sent to <strong id="resetEmailTarget" style="color: var(--text-main);"></strong>
+        </p>
+
+        <div class="form-group">
+          <label class="form-label" for="resetOtpCode">6-Digit Reset Code</label>
+          <div class="input-wrap">
+            <input class="form-input" type="text" id="resetOtpCode" placeholder="123456" maxlength="6" pattern="[0-9]{6}" required style="letter-spacing: 4px; font-weight: 700; text-align: center;">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="newPassword">New Password</label>
+          <div class="input-wrap">
+            <input class="form-input" type="password" id="newPassword" placeholder="Min 8 chars, uppercase, number, symbol" required autocomplete="new-password">
+            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('newPassword')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="resetBtn" class="submit-btn" style="margin-top: 24px;">Update Password</button>
+      </form>
+
+      <div class="auth-footer">
+        <button type="button" class="text-link" onclick="switchView('loginView')">&larr; Back to Sign In</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    var currentEmail = "";
+    var currentOtpPurpose = "register";
+
+    function showToast(msg, isError) {
+      var t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast show ' + (isError ? 'error' : 'success');
+      setTimeout(function() {
+        t.className = 'toast';
+      }, 4000);
+    }
+
+    function toggleTheme() {
+      var b = document.body;
+      var icon = document.getElementById('themeIcon');
+      b.classList.toggle('light-theme');
+      var isLight = b.classList.contains('light-theme');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      if (isLight) {
+        icon.innerHTML = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+      } else {
+        icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+      }
+    }
+
+    // Apply saved theme
+    if (localStorage.getItem('theme') === 'light') toggleTheme();
+
+    function togglePasswordVisibility(id) {
+      var input = document.getElementById(id);
+      if (input.type === 'password') input.type = 'text';
+      else input.type = 'password';
+    }
+
+    function switchView(viewId) {
+      var views = ['loginView', 'registerView', 'otpView', 'forgotView', 'resetPwdView'];
+      views.forEach(function(v) {
+        document.getElementById(v).style.display = 'none';
+      });
+      document.getElementById(viewId).style.display = 'block';
+
+      var title = document.getElementById('viewTitle');
+      var subtitle = document.getElementById('viewSubtitle');
+
+      if (viewId === 'loginView') {
+        title.textContent = 'Welcome Back';
+        subtitle.textContent = 'Sign in to your Posture AI telemetry dashboard';
+      } else if (viewId === 'registerView') {
+        title.textContent = 'Create Account';
+        subtitle.textContent = 'Join Posture AI for personalized posture tracking';
+      } else if (viewId === 'otpView') {
+        title.textContent = 'Verify Email';
+        subtitle.textContent = 'Enter the 6-digit code sent to your email';
+      } else if (viewId === 'forgotView') {
+        title.textContent = 'Forgot Password';
+        subtitle.textContent = 'We will send a reset code to your email';
+      } else if (viewId === 'resetPwdView') {
+        title.textContent = 'New Password';
+        subtitle.textContent = 'Set your new secure password';
+      }
+    }
+
+    // OTP Input Auto-Tab
+    function handleOtpInput(input, index) {
+      var digits = document.querySelectorAll('.otp-digit');
+      if (input.value && index < digits.length - 1) {
+        digits[index + 1].focus();
+      }
+    }
+
+    function getEnteredOtp() {
+      var digits = document.querySelectorAll('.otp-digit');
+      var code = '';
+      digits.forEach(d => code += d.value);
+      return code;
+    }
+
+    // --- API HANDLERS ---
+    async function handleLogin(e) {
+      e.preventDefault();
+      var btn = document.getElementById('loginBtn');
+      btn.disabled = true;
+      btn.textContent = 'Signing In...';
+
+      var identifier = document.getElementById('loginIdentifier').value;
+      var password = document.getElementById('loginPassword').value;
+
+      try {
+        var res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({identifier: identifier, password: password})
+        });
+        var data = await res.json();
+
+        if (data.success) {
+          showToast('Login successful! Redirecting...', false);
+          setTimeout(() => window.location.href = '/', 600);
+        } else if (data.requires_otp) {
+          currentEmail = data.email;
+          currentOtpPurpose = 'register';
+          document.getElementById('otpEmailTarget').textContent = currentEmail;
+          showToast('Please verify your email address to continue.', false);
+          switchView('otpView');
+        } else {
+          showToast(data.message || 'Login failed', true);
+        }
+      } catch(err) {
+        showToast('Network connection error. Try again.', true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+      }
+    }
+
+    async function handleRegister(e) {
+      e.preventDefault();
+      var btn = document.getElementById('regBtn');
+      btn.disabled = true;
+      btn.textContent = 'Creating Account...';
+
+      var username = document.getElementById('regUsername').value;
+      var email = document.getElementById('regEmail').value;
+      var password = document.getElementById('regPassword').value;
+
+      try {
+        var res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({username: username, email: email, password: password})
+        });
+        var data = await res.json();
+
+        if (data.success) {
+          currentEmail = email;
+          currentOtpPurpose = 'register';
+          document.getElementById('otpEmailTarget').textContent = currentEmail;
+          showToast('Account created! Verification code sent to email.', false);
+          switchView('otpView');
+        } else {
+          showToast(data.message || 'Registration failed', true);
+        }
+      } catch(err) {
+        showToast('Network error during registration.', true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Create Account';
+      }
+    }
+
+    async function handleVerifyOtp(e) {
+      e.preventDefault();
+      var code = getEnteredOtp();
+      if (code.length < 6) {
+        showToast('Please enter all 6 digits.', true);
+        return;
+      }
+
+      var btn = document.getElementById('otpBtn');
+      btn.disabled = true;
+      btn.textContent = 'Verifying...';
+
+      try {
+        var res = await fetch('/api/auth/verify-otp', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({email: currentEmail, otp_code: code, purpose: currentOtpPurpose})
+        });
+        var data = await res.json();
+
+        if (data.success) {
+          showToast('Account verified successfully! Redirecting...', false);
+          setTimeout(() => window.location.href = '/', 700);
+        } else {
+          showToast(data.message || 'Invalid or expired verification code.', true);
+        }
+      } catch(err) {
+        showToast('Network error during verification.', true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Verify & Activate';
+      }
+    }
+
+    async function resendOtp() {
+      if (!currentEmail) return;
+      showToast('Sending new code...', false);
+      try {
+        var res = await fetch('/api/auth/resend-otp', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({email: currentEmail, purpose: currentOtpPurpose})
+        });
+        var data = await res.json();
+        if (data.success) showToast('New verification code sent!', false);
+        else showToast(data.message || 'Failed to resend code', true);
+      } catch(e) {
+        showToast('Network error resending code', true);
+      }
+    }
+
+    async function handleForgotPassword(e) {
+      e.preventDefault();
+      var btn = document.getElementById('forgotBtn');
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+
+      var email = document.getElementById('forgotEmail').value;
+
+      try {
+        var res = await fetch('/api/auth/forgot-password', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({email: email})
+        });
+        var data = await res.json();
+
+        currentEmail = email;
+        document.getElementById('resetEmailTarget').textContent = currentEmail;
+        showToast(data.message || 'Reset code sent to email.', false);
+        switchView('resetPwdView');
+      } catch(err) {
+        showToast('Network error requesting reset code.', true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send Reset Code';
+      }
+    }
+
+    async function handleResetPassword(e) {
+      e.preventDefault();
+      var btn = document.getElementById('resetBtn');
+      btn.disabled = true;
+      btn.textContent = 'Updating...';
+
+      var code = document.getElementById('resetOtpCode').value;
+      var newPassword = document.getElementById('newPassword').value;
+
+      try {
+        var res = await fetch('/api/auth/reset-password', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({email: currentEmail, otp_code: code, new_password: newPassword})
+        });
+        var data = await res.json();
+
+        if (data.success) {
+          showToast('Password updated! Please sign in with your new password.', false);
+          setTimeout(() => switchView('loginView'), 1200);
+        } else {
+          showToast(data.message || 'Failed to reset password.', true);
+        }
+      } catch(err) {
+        showToast('Network error updating password.', true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Update Password';
+      }
+    }
+
+    // Check Mobile User-Agent
+    if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 900) {
+      document.getElementById('mobileBlocker').style.display = 'flex';
+    }
+
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+  </script>
+
+  <!-- BOTTOM LEFT LEGAL FOOTER -->
+  <div class="legal-footer-left">
+    <span>&copy; <span id="currentYear">2026</span> Posture AI.</span>
+    <a href="/privacy" class="legal-link">Privacy Policy</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 480" width="860" height="480">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0e131f"/>
+      <stop offset="100%" stop-color="#080a10"/>
+    </linearGradient>
+    <linearGradient id="mcuGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e2538"/>
+      <stop offset="100%" stop-color="#141824"/>
+    </linearGradient>
+    <linearGradient id="motorGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3d63dd"/>
+      <stop offset="100%" stop-color="#1d2e5c"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="860" height="480" fill="url(#bg)"/>
+  
+  <!-- Grid Accent Lines -->
+  <g stroke="rgba(255,255,255,0.04)" stroke-width="1">
+    <line x1="40" y1="0" x2="40" y2="480"/>
+    <line x1="120" y1="0" x2="120" y2="480"/>
+    <line x1="200" y1="0" x2="200" y2="480"/>
+    <line x1="280" y1="0" x2="280" y2="480"/>
+    <line x1="360" y1="0" x2="360" y2="480"/>
+    <line x1="440" y1="0" x2="440" y2="480"/>
+    <line x1="520" y1="0" x2="520" y2="480"/>
+    <line x1="600" y1="0" x2="600" y2="480"/>
+    <line x1="680" y1="0" x2="680" y2="480"/>
+    <line x1="760" y1="0" x2="760" y2="480"/>
+    <line x1="840" y1="0" x2="840" y2="480"/>
+    
+    <line x1="0" y1="60" x2="860" y2="60"/>
+    <line x1="0" y1="120" x2="860" y2="120"/>
+    <line x1="0" y1="180" x2="860" y2="180"/>
+    <line x1="0" y1="240" x2="860" y2="240"/>
+    <line x1="0" y1="300" x2="860" y2="300"/>
+    <line x1="0" y1="360" x2="860" y2="360"/>
+    <line x1="0" y1="420" x2="860" y2="420"/>
+  </g>
+
+  <!-- Title Header -->
+  <text x="40" y="42" fill="#ffffff" font-family="-apple-system, sans-serif" font-size="18" font-weight="700" letter-spacing="1">POSTURE AI &bull; WEARABLE HAPTIC CLIENT SCHEMATIC</text>
+  <text x="40" y="62" fill="#8b8d98" font-family="-apple-system, sans-serif" font-size="12">ESP32-C3 Microcontroller &bull; Flyback Protected Vibration Motor Driver Circuit</text>
+
+  <!-- ==================== 1. ESP32-C3 BLOCK ==================== -->
+  <g transform="translate(60, 100)" filter="url(#shadow)">
+    <!-- MCU Board Body -->
+    <rect width="240" height="300" rx="16" fill="url(#mcuGrad)" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+    
+    <!-- Chip Shield Representation -->
+    <rect x="30" y="40" width="180" height="90" rx="8" fill="#111520" stroke="#3d63dd" stroke-width="1.5"/>
+    <text x="120" y="80" fill="#a6bff9" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">ESP32-C3</text>
+    <text x="120" y="100" fill="#62636c" font-family="monospace" font-size="9" text-anchor="middle">WiFi 2.4GHz / RISC-V</text>
+
+    <!-- USB-C Port -->
+    <rect x="85" y="-10" width="70" height="18" rx="4" fill="#080a10" stroke="#8b8d98" stroke-width="1"/>
+    <text x="120" y="3" fill="#8b8d98" font-family="monospace" font-size="8" text-anchor="middle">USB-C 5V</text>
+
+    <!-- Built-in LED on GPIO 8 -->
+    <circle cx="120" cy="150" r="5" fill="#30d158"/>
+    <text x="120" y="170" fill="#8b8d98" font-family="monospace" font-size="9" text-anchor="middle">Built-in LED (GPIO 8)</text>
+
+    <!-- Pin Headers - Right Side -->
+    <!-- GPIO 8 Pin -->
+    <rect x="220" y="195" width="25" height="14" rx="3" fill="#3d63dd"/>
+    <text x="210" y="206" fill="#ffffff" font-family="monospace" font-size="11" font-weight="bold" text-anchor="end">GPIO 8</text>
+
+    <!-- 3.3V Pin -->
+    <rect x="220" y="240" width="25" height="14" rx="3" fill="#ff453a"/>
+    <text x="210" y="251" fill="#ffffff" font-family="monospace" font-size="11" font-weight="bold" text-anchor="end">3.3V / 5V</text>
+
+    <!-- GND Pin -->
+    <rect x="220" y="285" width="25" height="14" rx="3" fill="#62636c"/>
+    <text x="210" y="296" fill="#ffffff" font-family="monospace" font-size="11" font-weight="bold" text-anchor="end">GND</text>
+  </g>
+
+  <!-- ==================== 2. WIRING CONNECTIONS ==================== -->
+  <!-- Wire 1: GPIO 8 to Base Resistor -->
+  <path d="M 325 295 L 420 295" fill="none" stroke="#3d63dd" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="420" cy="295" r="4" fill="#3d63dd"/>
+
+  <!-- Wire 2: 3.3V Rail to Diode Cathode & Motor (+) -->
+  <path d="M 325 340 L 400 340 L 400 170 L 680 170" fill="none" stroke="#ff453a" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="680" cy="170" r="4" fill="#ff453a"/>
+
+  <!-- Wire 3: GND Rail to Transistor Emitter -->
+  <path d="M 325 385 L 530 385 L 530 340" fill="none" stroke="#62636c" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="530" cy="340" r="4" fill="#62636c"/>
+
+  <!-- ==================== 3. DRIVER CIRCUIT BLOCK ==================== -->
+  <!-- Base Resistor (1k Ohm) -->
+  <g transform="translate(420, 283)">
+    <rect width="50" height="24" rx="4" fill="#141824" stroke="#a6bff9" stroke-width="2"/>
+    <text x="25" y="16" fill="#ffffff" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">1 k&#937;</text>
+    <text x="25" y="-6" fill="#8b8d98" font-family="-apple-system, sans-serif" font-size="10" text-anchor="middle">R1 (Base)</text>
+  </g>
+  <line x1="470" y1="295" x2="505" y2="295" stroke="#3d63dd" stroke-width="3"/>
+
+  <!-- NPN Transistor (2N2222 / S8050) -->
+  <g transform="translate(505, 260)" filter="url(#shadow)">
+    <circle cx="25" cy="35" r="28" fill="#111520" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+    <!-- Collector / Base / Emitter lines -->
+    <line x1="0" y1="35" x2="16" y2="35" stroke="#ffffff" stroke-width="3"/> <!-- Base -->
+    <line x1="16" y1="18" x2="16" y2="52" stroke="#ffffff" stroke-width="4"/> <!-- Bar -->
+    <line x1="16" y1="26" x2="36" y2="10" stroke="#ffffff" stroke-width="2.5"/> <!-- Collector wire -->
+    <line x1="16" y1="44" x2="36" y2="60" stroke="#ffffff" stroke-width="2.5"/> <!-- Emitter wire -->
+    <!-- Emitter Arrow -->
+    <polygon points="34,57 26,50 32,44" fill="#ffffff"/>
+
+    <text x="25" y="-8" fill="#a6bff9" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">2N2222 (NPN)</text>
+    <text x="-4" y="32" fill="#8b8d98" font-family="monospace" font-size="9">B</text>
+    <text x="40" y="12" fill="#8b8d98" font-family="monospace" font-size="9">C</text>
+    <text x="40" y="66" fill="#8b8d98" font-family="monospace" font-size="9">E</text>
+  </g>
+
+  <!-- Wire: Collector to Motor Negative & Diode Anode -->
+  <path d="M 541 270 L 680 270" fill="none" stroke="#a6bff9" stroke-width="3"/>
+  <circle cx="680" cy="270" r="4" fill="#a6bff9"/>
+
+  <!-- Flyback Diode (1N4001 / 1N4148) in Parallel with Motor -->
+  <g transform="translate(630, 200)">
+    <rect x="-15" y="-5" width="30" height="30" rx="4" fill="#141824" stroke="#ffcc00" stroke-width="1.5"/>
+    <!-- Diode symbol -->
+    <line x1="0" y1="-25" x2="0" y2="45" stroke="#ffcc00" stroke-width="2"/>
+    <polygon points="-8,15 8,15 0,-2" fill="#ffcc00"/>
+    <line x1="-8" y1="-2" x2="8" y2="-2" stroke="#ffcc00" stroke-width="2.5"/>
+    <text x="-20" y="14" fill="#ffcc00" font-family="monospace" font-size="10" font-weight="bold" text-anchor="end">1N4001</text>
+    <text x="-20" y="27" fill="#8b8d98" font-family="-apple-system, sans-serif" font-size="8" text-anchor="end">Flyback</text>
+  </g>
+  <line x1="630" y1="170" x2="680" y2="170" stroke="#ff453a" stroke-width="3"/>
+  <line x1="630" y1="270" x2="680" y2="270" stroke="#a6bff9" stroke-width="3"/>
+
+  <!-- ==================== 4. VIBRATION MOTOR ==================== -->
+  <g transform="translate(680, 180)" filter="url(#shadow)">
+    <!-- Motor Housing -->
+    <circle cx="45" cy="40" r="42" fill="url(#motorGrad)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+    
+    <!-- Concentric Vibration Lines -->
+    <circle cx="45" cy="40" r="28" fill="none" stroke="rgba(255,255,255,0.25)" stroke-dasharray="6,4"/>
+    <circle cx="45" cy="40" r="14" fill="#ffffff"/>
+    
+    <!-- Wave ripples -->
+    <path d="M 95 25 Q 105 40 95 55" fill="none" stroke="#30d158" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M 103 18 Q 117 40 103 62" fill="none" stroke="#30d158" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+
+    <text x="45" y="102" fill="#ffffff" font-family="-apple-system, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">VIBRATION MOTOR</text>
+    <text x="45" y="118" fill="#8b8d98" font-family="-apple-system, sans-serif" font-size="10" text-anchor="middle">Coin Disc / ERM Motor</text>
+
+    <!-- Terminal Pins -->
+    <circle cx="0" cy="-10" r="4" fill="#ff453a"/>
+    <text x="-8" y="-12" fill="#ff453a" font-family="monospace" font-size="10" font-weight="bold" text-anchor="end">(+) 3.3V</text>
+
+    <circle cx="0" cy="90" r="4" fill="#a6bff9"/>
+    <text x="-8" y="94" fill="#a6bff9" font-family="monospace" font-size="10" font-weight="bold" text-anchor="end">(-) GND Switch</text>
+  </g>
+
+  <!-- ==================== 5. LEGEND & SPECIFICATIONS BOX ==================== -->
+  <g transform="translate(40, 420)">
+    <rect width="780" height="42" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)"/>
+    <circle cx="20" cy="21" r="5" fill="#3d63dd"/>
+    <text x="32" y="25" fill="#f4f5f8" font-family="-apple-system, sans-serif" font-size="11"><strong>Signal:</strong> GPIO 8 (PWM/Logic HIGH)</text>
+
+    <circle cx="260" cy="21" r="5" fill="#ff453a"/>
+    <text x="272" y="25" fill="#f4f5f8" font-family="-apple-system, sans-serif" font-size="11"><strong>Power:</strong> 3.3V Rail (VCC)</text>
+
+    <circle cx="480" cy="21" r="5" fill="#62636c"/>
+    <text x="492" y="25" fill="#f4f5f8" font-family="-apple-system, sans-serif" font-size="11"><strong>Ground:</strong> Common System GND</text>
+
+    <text x="760" y="25" fill="#30d158" font-family="monospace" font-size="11" font-weight="bold" text-anchor="end">400ms DUTY CYCLE</text>
+  </g>
+</svg>

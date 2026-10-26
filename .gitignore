@@ -1,0 +1,41 @@
+# Python & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+.python-version
+
+# Pre-Production & Local Testing Scripts
+Pre-production Code/
+test_webcam_bad_posture.py
+posture-monitor-docker
+
+# Local & Development Hardware Builds
+Esp32-code/
+
+# Database & Persistent Storage
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment Variables & Secrets (Keep .env.example)
+.env
+.env.local
+.env.*.local
+
+# Session & Temporary Work Logs
+ocsession.txt
+*.log
+
+# Docker, IDE & OS artifacts
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~

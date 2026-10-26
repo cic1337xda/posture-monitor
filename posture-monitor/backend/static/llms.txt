@@ -1,0 +1,5 @@
+# Posture AI System
+Intelligent ergonomics and real-time biometric posture monitoring system.
+Operates on desktop computers using computer vision (MediaPipe Pose) to assess seating posture, forward head tilt, shoulder symmetry, and sedentary duration.
+Features haptic feedback integration via ESP32 wearable watch and browser audio alerts.
+Authentication is secured with Bcrypt, HttpOnly JWT cookies, and Resend email OTP verification.
